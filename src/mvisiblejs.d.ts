@@ -1,6 +1,8 @@
 // Type definitions for jQuery MVisibleJS
 // Project: https://github.com/MpStyle/jquery-mvisiblejs
 
+interface MVisibleJSOption{}
+
 interface JQuery {
-    mtemplatejs(partial:boolean,hidden:boolean,direction:string): JQuery;
+    mvisiblejs(callback:()=>void, options?:MVisibleJSOption): JQuery;
 }
