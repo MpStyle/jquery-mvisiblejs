@@ -1,4 +1,5 @@
 # jQuery - MVisibleJS
+An infinite scrool plugin for jQuery. Will be execute a callback whenever an element will be visible in the screen
 
 ## Using
 ```html
