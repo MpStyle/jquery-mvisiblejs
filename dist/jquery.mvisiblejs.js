@@ -19,7 +19,7 @@
             });
         }
         MVisibleJS.prototype.run = function () {
-            while (this.isVisible()) {
+            if (this.isVisible()) {
                 this.callback.call(this);
             }
         };

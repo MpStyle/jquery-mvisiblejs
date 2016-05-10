@@ -29,7 +29,7 @@
         }
 
         public run() {
-            while (this.isVisible()) {
+            if (this.isVisible()) {
                 this.callback.call(this);
             }
         }
