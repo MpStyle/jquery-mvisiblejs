@@ -6,26 +6,36 @@
 
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <script src="../dist/jquery.mvisiblejs.js"></script>
+    <style>
+        body{
+            margin: 0;
+        }
+
+        #container{
+            height: 200px;
+            overflow: scroll;
+            overflow-x: hidden;
+        }
+    </style>
 
     <script>
         $(function(){
-            $("#footer").mvisiblejs(function () {
+            $("#loader").mvisiblejs(function () {
                 console.log("Loading....");
                 $item = $("<div>").attr("style", "border: 1px solid black; margin-bottom: 10px;");
                 for (var i = 0; i < 10; i++) {
-                    $("#container").append($item.clone().text(i));
+                    $(".items").append($item.clone().text(i));
                 }
-            });
+            }, {scrollableElement: '#container'});
         });
     </script>
 </head>
 <body>
 
 <div id="container">
-
+    <div class="items"></div>
+    <div id="loader" style="height: 10px">Loading....</div>
 </div>
-
-<div id="footer" style="height: 10px"></div>
 
 </body>
 </html>

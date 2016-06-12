@@ -5,13 +5,13 @@
         public completely:boolean = false;
         public hidden:boolean = false;
         public direction:string = 'both';
+        public scrollableElement:any = window; 
     }
 
     /**
      * An infinite scrool plugin for jQuery. Will be execute a callback whenever an element will be visible in the screen
      */
     class MVisibleJS {
-        private static $w:JQuery = $(window);
         private elem:Element;
         private callback:()=>void;
         private options:MVisibleJSOption = new MVisibleJSOption;
@@ -23,7 +23,7 @@
             this.elem = elem;
             this.callback = callback;
 
-            MVisibleJS.$w.scroll(function () {
+            $(this.options.scrollableElement).scroll(function () {
                 me.run();
             });
         }
@@ -41,12 +41,12 @@
         private isVisible():boolean {
             let $t:JQuery = $(this.elem).length > 1 ? $(this.elem).eq(0) : $(this.elem),
                 t:HTMLElement = $t.get(0),
-                vpWidth:number = MVisibleJS.$w.width(),
-                vpHeight:number = MVisibleJS.$w.height(),
+                vpWidth:number = $(this.options.scrollableElement).width(),
+                vpHeight:number = $(this.options.scrollableElement).height(),
                 clientSize:number|boolean = this.options.hidden === true ? t.offsetWidth * t.offsetHeight : true,
-                viewTop = MVisibleJS.$w.scrollTop(),
+                viewTop = $(this.options.scrollableElement).scrollTop(),
                 viewBottom = viewTop + vpHeight,
-                viewLeft = MVisibleJS.$w.scrollLeft(),
+                viewLeft = $(this.options.scrollableElement).scrollLeft(),
                 viewRight = viewLeft + vpWidth,
                 offset = $t.offset(),
                 _top = offset.top,
@@ -58,12 +58,14 @@
                 compareLeft = !this.options.completely === true ? _right : _left,
                 compareRight = !this.options.completely === true ? _left : _right;
 
-            if (this.options.direction === 'both')
-                return !!clientSize && ((compareBottom <= viewBottom) && (compareTop >= viewTop)) && ((compareRight <= viewRight) && (compareLeft >= viewLeft));
-            else if (this.options.direction === 'vertical')
-                return !!clientSize && ((compareBottom <= viewBottom) && (compareTop >= viewTop));
-            else if (this.options.direction === 'horizontal')
-                return !!clientSize && ((compareRight <= viewRight) && (compareLeft >= viewLeft));
+            switch(this.options.direction){
+                case 'both':
+                    return !!clientSize && ((compareBottom <= viewBottom) && (compareTop >= viewTop)) && ((compareRight <= viewRight) && (compareLeft >= viewLeft));
+                case 'vertical':
+                    return !!clientSize && ((compareBottom <= viewBottom) && (compareTop >= viewTop));
+                case 'horizontal':
+                    return !!clientSize && ((compareRight <= viewRight) && (compareLeft >= viewLeft));
+            }
         }
     }
 
